@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ChallengeApplication {
 
 	public static void main(String[] args) {
-		System.out.println("Starting Monthly Challenges sjcbdjbApplication...");
 
 		SpringApplication.run(ChallengeApplication.class, args);
 	}
