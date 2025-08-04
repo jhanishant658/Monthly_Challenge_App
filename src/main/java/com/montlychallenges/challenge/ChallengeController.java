@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,12 +48,14 @@ public class ChallengeController {
 
   }
   @GetMapping("/getChallenge/{month}")    
-  public ResponseEntity<Challenge> getChallenge(@PathVariable String month) {
+  public ResponseEntity<List<Challenge>>getChallenge(@PathVariable String month) {
     if(challengeService.getChallenge(month) == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-      return  new ResponseEntity<>(challengeService.getChallenge(month),HttpStatus.OK);
+    if(challengeService.getChallenge(month).isEmpty()) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+      return  new ResponseEntity<List<Challenge>>(challengeService.getChallenge(month), HttpStatus.OK);
   }
       @PutMapping("/updateChallenge/{id}")
       public ResponseEntity<String> putMethodName(@PathVariable long id, @RequestBody Challenge challenge) {

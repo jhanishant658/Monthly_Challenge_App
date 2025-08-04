@@ -1,61 +1,51 @@
 package com.montlychallenges.challenge;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ChallengeService {
-    private List<Challenge> challenges;
-    private int nextid;
-    ChallengeService() {
-        this.challenges = new ArrayList<>();
-        this.nextid = 1;
-    }
+    @Autowired
+     ChallengeRepository challengeRepository;
    
- 
+  
+
+    
       public List<Challenge> getAllChallenges() {
 
-        return challenges;
+        return challengeRepository.findAll();
     }
-    public Boolean postChallenges( Challenge challenge) {
-        if(challenge==null) return false ; 
-        challenge.setId(nextid++);
-        challenges.add(challenge);
-        return true;
-
-  }
-    public Challenge getChallenge(String month) {
-        if(challenges.isEmpty()) return null;
-        for(Challenge challenge : challenges) {
-            if(challenge.getMonth().equals(month)) {
-                return challenge;
-            }
-        }
-       return null;
+   public boolean postChallenges(Challenge challenge) {
+    if (challenge == null) return false;
+    challengeRepository.save(challenge);
+    return true;
+}
+    public List<Challenge>getChallenge(String month) {
+        return challengeRepository.findByMonth(month);
     }
 
 
     public String updateChallenge(Long id, Challenge challenge) {
-        for (Challenge existingChallenge : challenges) {
-            if (existingChallenge.getId() == id) {
-                existingChallenge.setMonth(challenge.getMonth());
-                existingChallenge.setDescription(challenge.getDescription());
-                return "Challenge updated successfully!";
-            }
+         if(challengeRepository.findById(id).isPresent()) {
+            Challenge existingChallenge = challengeRepository.findById(id).get();
+            existingChallenge.setMonth(challenge.getMonth());
+            existingChallenge.setDescription(challenge.getDescription());
+            challengeRepository.save(existingChallenge);
+            return "Challenge updated successfully!";
         }
         return "Challenge not found!";
     }
 
 
     public boolean deleteChallenge(long id) {
-        for (Challenge challenge : challenges) {
-            if (challenge.getId() == id) {
-                challenges.remove(challenge);
-                return true; // Challenge found and removed
-            }
+        if(!challengeRepository.existsById(id)) {
+            return false; // Challenge not found
         }
-        return false; // Challenge not found
+           challengeRepository.deleteById(id);
+        return true; // Challenge deleted successfully
     }
 }
