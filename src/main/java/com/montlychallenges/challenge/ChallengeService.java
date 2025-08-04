@@ -35,4 +35,27 @@ public class ChallengeService {
         }
        return null;
     }
+
+
+    public String updateChallenge(Long id, Challenge challenge) {
+        for (Challenge existingChallenge : challenges) {
+            if (existingChallenge.getId() == id) {
+                existingChallenge.setMonth(challenge.getMonth());
+                existingChallenge.setDescription(challenge.getDescription());
+                return "Challenge updated successfully!";
+            }
+        }
+        return "Challenge not found!";
+    }
+
+
+    public boolean deleteChallenge(long id) {
+        for (Challenge challenge : challenges) {
+            if (challenge.getId() == id) {
+                challenges.remove(challenge);
+                return true; // Challenge found and removed
+            }
+        }
+        return false; // Challenge not found
+    }
 }
