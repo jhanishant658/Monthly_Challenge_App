@@ -7,9 +7,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChallengeService {
-    
-      private List<Challenge> challenges = new ArrayList<>(); 
-      private long nextid = 1L;
+    private List<Challenge> challenges;
+    private int nextid;
+    ChallengeService() {
+        this.challenges = new ArrayList<>();
+        this.nextid = 1;
+    }
+   
+ 
       public List<Challenge> getAllChallenges() {
 
         return challenges;
