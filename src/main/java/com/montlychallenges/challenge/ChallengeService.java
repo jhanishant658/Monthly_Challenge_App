@@ -48,4 +48,12 @@ public class ChallengeService {
            challengeRepository.deleteById(id);
         return true; // Challenge deleted successfully
     }
+    public boolean deleteAllChallenges() {
+        if (challengeRepository.count() == 0) {
+            return false ; // No challenges to delete
+        }
+        challengeRepository.deleteAll();
+        return true; // All challenges deleted successfully
+
+    }
 }

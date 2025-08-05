@@ -68,5 +68,14 @@ public class ChallengeController {
           }
           return new ResponseEntity<>("Challenge not found!", HttpStatus.NOT_FOUND);
       }
+      @DeleteMapping("/deleteAllChallenges")
+        public ResponseEntity<String> deleteAllChallenges() {
+            boolean check =  challengeService.deleteAllChallenges();
+        if(check == false) {
+            return new ResponseEntity<>("No challenges to delete!", HttpStatus.NOT_FOUND);
+        }
+                return new ResponseEntity<>("All challenges deleted successfully!", HttpStatus.OK);
+
+        }
       
 }
